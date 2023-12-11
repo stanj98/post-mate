@@ -87,7 +87,7 @@ body {
 }
 
 .main-section .title {
-    margin-bottom: 15px;
+    margin-bottom: 25px;
     font-size: 31px;
     line-height: 32px;
     border: none;
@@ -101,6 +101,37 @@ body {
 
 .main-section .title:focus {
     outline: none;
+}
+
+trix-toolbar .trix-button-group {
+    border: none;
+    border-bottom: none;
+}
+
+trix-toolbar .trix-button:not(:first-child) {
+    border-left: none;
+}
+
+trix-toolbar .trix-button.trix-active {
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+trix-toolbar .trix-button--icon {
+    border: none;
+    border-bottom: none;
+    border-left: none;
+    margin-right: 6px;
+}
+
+.trix-button--icon-undo, 
+.trix-button--icon-redo, 
+.trix-button--icon-decrease-nesting-level,
+.trix-button--icon-increase-nesting-level {
+    display: none;
+}
+
+trix-toolbar .trix-button-group:not(:first-child) {
+    margin-left: 0;
 }
 
 .trix-custom-content {

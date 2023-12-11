@@ -14,28 +14,30 @@
     </head>
     <body>
 
-        <div class="container">
-            <div class="control-panel">
-                <div class="publish-btn">Publish</div>
-                <div class="control-panel-container">
-                    <div class="action-btn">
-                        <img class="icon" src="../images/add.svg" alt="Create Note">
-                        <div class="tooltip">Create a new note</div>
-                    </div>
-                    <div class="action-btn">
-                        <img class="icon" src="../images/view.svg" alt="View All Notes">
-                        <div class="tooltip">View notes</div>
+        <form>
+            <div class="container">
+                <div class="control-panel">
+                    <div class="publish-btn">Publish</div>
+                    <div class="control-panel-container">
+                        <div class="action-btn">
+                            <img class="icon" src="../images/add.svg" alt="Create Note">
+                            <div class="tooltip">Create a new note</div>
+                        </div>
+                        <div class="action-btn">
+                            <img class="icon" src="../images/view.svg" alt="View All Notes">
+                            <div class="tooltip">View notes</div>
+                        </div>
                     </div>
                 </div>
+                <div class="main-section">
+                    <form>
+                        <input id="title" type="text" class="title" placeholder="Title">
+                        <input id="form-content" type="hidden" name="content">
+                        <trix-editor autofocus class="trix-custom-content" input = "form-content"></trix-editor>
+                    </form>
+                </div>
             </div>
-            <div class="main-section">
-                <form>
-                    <input id="title" type="text" class="title" placeholder="Title">
-                    <input id="form-content" type="hidden" name="content">
-                    <trix-editor autofocus class="trix-custom-content" input = "form-content"></trix-editor>
-                </form>
-            </div>
-        </div>
+        </form>
 
 
     </body>

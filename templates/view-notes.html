@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PostMate - Simple Note Taker</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?amily=Roboto+Mono&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.0/dist/trix.css">
+        <script type="text/javascript" src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></script>
+        <link rel="stylesheet" href="../static/css/create-note.css">
+    </head>
+    <body>
+
+        <form>
+            <div class="container">
+                <div class="control-panel">
+                    <div class="publish-btn">New Note</div>
+                    <div class="control-panel-container">
+                        <div class="action-btn">
+                            <img class="icon" src="../images/add.svg" alt="Create Note">
+                            <div class="tooltip">Create a new note</div>
+                        </div>
+                        <div class="action-btn">
+                            <img class="icon" src="../images/view.svg" alt="View All Notes">
+                            <div class="tooltip">View notes</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="main-section">
+                    <form>
+                        <input id="title" type="text" class="title" placeholder="Title">
+                        <input id="form-content" type="hidden" name="content">
+                        <trix-editor autofocus class="trix-custom-content" input = "form-content"></trix-editor>
+                    </form>
+                </div>
+            </div>
+        </form>
+
+
+    </body>
+</html>

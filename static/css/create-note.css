@@ -1,92 +1,6 @@
 
 
-div, p, input {
-    font-family: 'Roboto Mono', monospace;
-}
-
-body {
-    padding-bottom: 3000px;
-}
-
-.container {
-    display: flex;
-    justify-content: left;
-    margin-left: 170px;
-    margin-top: 35px;
-    position: fixed;
-}
-
-.control-panel {
-    width: 160px;
-    display: flex;
-    flex-direction: column;
-    margin-right: 70px;
-}
-
-.publish-btn {
-    padding: 6px 12px;
-    background-color: #efefef;
-    text-align: center;
-    border-radius: 8px;
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 17px;
-    cursor: pointer;
-}
-
-.publish-btn:hover {
-    background-color: #e0dddd;
-}
-
-.control-panel-container {
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.control-panel-container div {
-    margin-top: 12px;
-}
-
-.action-btn {
-    position: relative;
-    display: flex;
-    justify-content: center;
-}
-
-.action-btn .icon {
-    position: relative;
-    cursor: pointer;
-    padding: 5px;
-    width: 12px;
-    height: 12px;
-}
-
-.action-btn .icon:hover {
-    background-color: #c4c3c3;
-    border-radius: 50%;
-}
-
-.action-btn .tooltip {
-    position: absolute;
-    background-color: black;
-    color: white;
-    font-size: 12px;
-    padding: 5px 20px;
-    text-align: center;
-    text-transform: uppercase;
-    bottom: -30px;
-    opacity: 0;
-    transition: opacity 0.15s;
-    pointer-events: none;
-    white-space: nowrap;
-    border-radius: 5px;
-}
-
-.action-btn:hover .tooltip {
-    opacity: 1;
-}
-
-.main-section .title {
+.main-section .input-title {
     margin-bottom: 25px;
     font-size: 31px;
     line-height: 32px;
@@ -94,12 +8,12 @@ body {
     font-weight: 700;
 }
 
-.main-section .title::placeholder {
+.main-section .input-title::placeholder {
     color: grey;
     letter-spacing: -1px;
 }
 
-.main-section .title:focus {
+.main-section .input-title:focus {
     outline: none;
 }
 

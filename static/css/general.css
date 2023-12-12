@@ -1,0 +1,86 @@
+
+div, p, input {
+    font-family: 'Roboto Mono', monospace;
+}
+
+.container {
+    margin-left: 170px;
+    margin-top: 35px;
+}
+
+.control-panel {
+    width: 160px;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+}
+
+.publish-btn, .new-note-btn {
+    padding: 6px 12px;
+    background-color: #efefef;
+    text-align: center;
+    border-radius: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.publish-btn:hover, .new-note-btn:hover {
+    background-color: #e0dddd;
+}
+
+.control-panel-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.control-panel-container div {
+    margin-top: 12px;
+}
+
+.action-btn, .delete-btn {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.action-btn .icon, .delete-btn .icon {
+    position: relative;
+    cursor: pointer;
+    padding: 5px;
+    width: 12px;
+    height: 12px;
+}
+
+.action-btn .icon:hover, .delete-btn .icon:hover {
+    background-color: #c4c3c3;
+    border-radius: 50%;
+}
+
+.action-btn .tooltip, .delete-btn .tooltip {
+    position: absolute;
+    background-color: black;
+    color: white;
+    font-size: 12px;
+    padding: 5px 20px;
+    text-align: center;
+    text-transform: uppercase;
+    bottom: -30px;
+    opacity: 0;
+    transition: opacity 0.15s;
+    pointer-events: none;
+    white-space: nowrap;
+    border-radius: 5px;
+    z-index: 100;
+}
+
+.action-btn:hover .tooltip,
+.delete-btn:hover .tooltip {
+    opacity: 1;
+}
+
+.main-section {
+    width: 650px;
+    padding-left: 210px;
+}

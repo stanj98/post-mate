@@ -1,0 +1,40 @@
+
+.heading {
+    font-size: 35px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.sync-notes-container {
+    margin-bottom: 10px;
+}
+
+.search-notes-input {
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    width: 95%;
+    margin-bottom: 22px;
+} 
+
+.search-notes-input:focus {
+    outline: none;
+}
+
+.search-notes-input::placeholder {
+    font-size: 16px;
+}
+
+.search-notes-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.delete-btn {
+    margin-right: 14px;
+}
+
+.delete-btn .icon {
+    width: 15px;
+    height: 15px;
+}

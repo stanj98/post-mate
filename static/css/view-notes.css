@@ -1,4 +1,9 @@
 
+.control-panel .new-note-link {
+    text-decoration: none;
+    color: black;
+}
+
 .heading {
     font-size: 35px;
     font-weight: 700;

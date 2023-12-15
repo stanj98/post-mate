@@ -6,7 +6,7 @@ func main() {
 
 	app := fiber.New()
 
-	app.Static("/static", "./public") 
+	app.Static("/", "./public") 
 
 	app.Listen(":3000")
 

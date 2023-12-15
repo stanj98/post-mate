@@ -1,8 +1,11 @@
-module post-mate
+module github.com/stanj98/post-mate
 
 go 1.21.5
 
-require github.com/gofiber/fiber/v2 v2.51.0
+require (
+	github.com/gofiber/fiber/v2 v2.51.0
+	github.com/joho/godotenv v1.5.1
+)
 
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
@@ -15,5 +18,5 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.50.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
-	golang.org/x/sys v0.14.0 // indirect
+	golang.org/x/sys v0.15.0 // indirect
 )

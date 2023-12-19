@@ -6,6 +6,7 @@ import (
 	"github.com/google/uuid"
 	"time"
 	"errors"
+	// "fmt"
 )
 
 type Note struct {
@@ -138,6 +139,55 @@ func deleteNote(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, notes)
 }
 
+func ViewNotes(c *gin.Context) {
+	data := gin.H{
+		"notes" : notes,
+	}
+	c.HTML(http.StatusOK, "view-notes.html", data)
+}
+
+func ViewNote(c *gin.Context) {
+	id := c.Param("id")
+	note, err := GetNoteById(id)
+	if err != nil {
+		c.HTML(http.StatusOK, "create-note.html", nil)
+	}
+	data := gin.H{
+		"note": note,
+	}
+	c.HTML(http.StatusOK, "view-note.html", data)
+}
+
+func EditNote(c *gin.Context) {
+	id := c.Param("id")
+	note, err := GetNoteById(id)
+	if err != nil {
+		c.HTML(http.StatusOK, "view-note.html", nil)
+	}
+	data := gin.H{
+		"note": note,
+	}
+	c.HTML(http.StatusOK, "edit-note.html", data)
+}
+
+func CloneNote(c *gin.Context) {
+	id := c.Param("id")
+	note, err := GetNoteById(id)
+	if err != nil {
+		c.HTML(http.StatusOK, "view-note.html", nil)
+	}
+	data := gin.H{
+		"note": note,
+	}
+	c.HTML(http.StatusOK, "create-note.html", data)
+}
+
+func CreateNote(c *gin.Context) {
+	//try getting data inputted from user when going from edit note -> create note button click and show in create note page
+	//like how quicknote does
+	c.HTML(http.StatusOK, "create-note.html", nil)
+}
+
 func main() {
 
 	/*
@@ -148,13 +198,27 @@ func main() {
 
 	*/
 
-	// app.Static("/", "./public") 
-
 	router := gin.Default()
-	router.GET("/notes", getNotes)
-	router.GET("/notes/:id", getNote)
-	router.POST("/notes", createNote)
-	router.PUT("/notes/:id", editNote)
-	router.DELETE("/notes/:id", deleteNote)
+	router.Static("/static", "./templates")
+	router.LoadHTMLGlob("templates/*.html")
+
+	apiRoutes := router.Group("/api") 
+	{
+		apiRoutes.GET("/notes", getNotes)
+		apiRoutes.GET("/notes/:id", getNote)
+		apiRoutes.POST("/notes", createNote)
+		apiRoutes.PUT("/notes/:id", editNote)
+		apiRoutes.DELETE("/notes/:id", deleteNote)
+	}
+
+	viewRoutes := router.Group("/") 
+	{
+		viewRoutes.GET("/view-notes", ViewNotes)
+		viewRoutes.GET("/:id", ViewNote)
+		viewRoutes.GET("/:id/edit", EditNote)
+		viewRoutes.GET("/:id/clone", CloneNote)
+		viewRoutes.GET("/create-note", CreateNote)
+	}
+	
 	router.Run("localhost:8080")
 }

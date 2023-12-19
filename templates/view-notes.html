@@ -1,0 +1,33 @@
+{{ template "header.html" }}
+
+    <form>
+        <div class="container">
+            <div class="control-panel">
+                <a class="new-note-link" href="/create-note">
+                    <div class="new-note-btn">New Note</div>
+                </a>
+            </div>
+            <div class="main-section">
+                <div class="heading">My Notes</div>
+                <div class="sync-notes-container">
+                    <a href = ""> Sync notes with another device </a> -
+                    <a href= ""> Import notes </a>
+                </div>
+                <input type="text" class="search-notes-input" placeholder="Search notes...">
+
+                {{range .notes}}
+                    <div class="search-notes-container">
+                        <div class="delete-btn">
+                            <img src="/static/images/delete.svg" class="icon" alt="delete-note-icon">
+                            <div class="tooltip">Remove Note</div>
+                        </div>
+                        <div class="note-title">
+                            <a href="/{{.Id}}" class="note-title-link">{{.Title}}</a>
+                        </div>
+                    </div>
+                {{end}}
+            </div>
+        </div>
+    </form>
+
+{{ template "footer.html" }}

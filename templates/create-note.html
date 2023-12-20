@@ -1,17 +1,19 @@
 {{ template "header.html" }}
 
-    <form>
+    <form action="/create-note" method="post" name="createNoteForm">
         <div class="container">
             <div class="control-panel">
                 {{if .note}}
                     <div class="publish-btn">Save</div>
                 {{else}}
-                    <div class="publish-btn">Publish</div>
+                    <input class="publish-btn" type="submit" placeholder="Publish">
                 {{end}}
                 <div class="control-panel-container">
                     <div class="action-btn">
-                        <img class="icon" src="/static/images/add.svg" alt="Create Note">
-                        <div class="tooltip">Create a new note</div>
+                        <a href="/view-notes">
+                            <img class="icon" src="/static/images/add.svg" alt="Create Note">
+                            <div class="tooltip">Create a new note</div>
+                        </a>
                     </div>
                     <div class="action-btn">
                         <a href="/view-notes">
@@ -23,11 +25,11 @@
             </div>
             <div class="main-section">
                 {{if .note}}
-                    <input id="input-title" value="{{.note.Title}}" type="text" class="input-title" placeholder="Title">
+                    <input id="input-title" name="input-title" value="{{.note.Title}}" type="text" class="input-title" placeholder="Title">
                     <input id="form-content" value="{{.note.ContentBody}}" type="hidden" name="content">
                     <trix-editor autofocus class="trix-custom-content" input = "form-content"></trix-editor>
                 {{else}}
-                    <input id="input-title" type="text" class="input-title" placeholder="Title">
+                    <input id="input-title" name="input-title" type="text" class="input-title" placeholder="Title">
                     <input id="form-content" type="hidden" name="content">
                     <trix-editor autofocus class="trix-custom-content" input = "form-content"></trix-editor>
                 {{end}}

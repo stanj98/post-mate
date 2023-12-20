@@ -6,7 +6,9 @@ import (
 	"github.com/google/uuid"
 	"time"
 	"errors"
-	// "fmt"
+	"encoding/json"
+	"bytes"
+	"fmt"
 )
 
 type Note struct {
@@ -152,6 +154,7 @@ func ViewNote(c *gin.Context) {
 	if err != nil {
 		c.HTML(http.StatusOK, "create-note.html", nil)
 	}
+	
 	data := gin.H{
 		"note": note,
 	}
@@ -185,6 +188,43 @@ func CloneNote(c *gin.Context) {
 func CreateNote(c *gin.Context) {
 	//try getting data inputted from user when going from edit note -> create note button click and show in create note page
 	//like how quicknote does
+
+	title := c.PostForm("input-title")
+	content := c.PostForm("content")
+	if title != "" && content != "" {
+		payload, err := json.Marshal(map[string]string{
+			"title" : title,
+			"body": content,
+		})
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error" : "Failed to process request"})
+			return
+		}
+
+		apiUrl := "http://localhost:8080/api/notes"
+
+		resp, err := http.Post(apiUrl, "application/json", bytes.NewBuffer(payload))
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error" : "Failed to call API"})
+			return
+		}
+
+		defer resp.Body.Close()
+		fmt.Println(resp.StatusCode)
+		fmt.Println(http.StatusCreated)
+		
+		if resp.StatusCode != http.StatusCreated {
+			c.AbortWithStatusJSON(resp.StatusCode, gin.H{"error" : "Failed to create note on the server"})
+			return
+		}
+
+		data := gin.H{
+			"notes" : notes,
+		}
+
+		c.HTML(http.StatusOK, "view-notes.html", data)
+		return
+	}
 	c.HTML(http.StatusOK, "create-note.html", nil)
 }
 
@@ -202,15 +242,6 @@ func main() {
 	router.Static("/static", "./templates")
 	router.LoadHTMLGlob("templates/*.html")
 
-	apiRoutes := router.Group("/api") 
-	{
-		apiRoutes.GET("/notes", getNotes)
-		apiRoutes.GET("/notes/:id", getNote)
-		apiRoutes.POST("/notes", createNote)
-		apiRoutes.PUT("/notes/:id", editNote)
-		apiRoutes.DELETE("/notes/:id", deleteNote)
-	}
-
 	viewRoutes := router.Group("/") 
 	{
 		viewRoutes.GET("/view-notes", ViewNotes)
@@ -218,6 +249,16 @@ func main() {
 		viewRoutes.GET("/:id/edit", EditNote)
 		viewRoutes.GET("/:id/clone", CloneNote)
 		viewRoutes.GET("/create-note", CreateNote)
+		viewRoutes.POST("/create-note", CreateNote)
+	}
+
+	apiRoutes := router.Group("/api") 
+	{
+		apiRoutes.GET("/notes", getNotes)
+		apiRoutes.GET("/notes/:id", getNote)
+		apiRoutes.POST("/notes", createNote)
+		apiRoutes.PUT("/notes/:id", editNote)
+		apiRoutes.DELETE("/notes/:id", deleteNote)
 	}
 	
 	router.Run("localhost:8080")

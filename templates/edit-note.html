@@ -1,12 +1,12 @@
 {{ template "header.html" }}
 
-    <form>
+<form action="/{{.note.Id}}/edit" method="post" name="editNoteForm">
         <div class="container">
             <div class="control-panel">
-                <div class="publish-btn">Save</div>
+                <input class="publish-btn" type="submit" value="Save">
                 <div class="control-panel-container">
                     <div class="action-btn">
-                        <a href="/create-note">
+                        <a href="/">
                             <img class="icon" src="/static/images/add.svg" alt="Create Note">
                             <div class="tooltip">Create a new note</div>
                         </a>
@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="main-section">
-                <input id="input-title" value="{{.note.Title}}" type="text" class="input-title" placeholder="Title">
+                <input id="input-title" name="input-title" value="{{.note.Title}}" type="text" class="input-title" placeholder="Title">
                 <input id="form-content" value="{{.note.ContentBody}}" type="hidden" name="content">
                 <trix-editor autofocus class="trix-custom-content" input = "form-content"></trix-editor>
             </div>

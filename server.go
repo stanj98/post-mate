@@ -21,26 +21,19 @@ type Note struct {
 }
 
 var notes = []Note {
-	{
-		Id: "1",
-		Title: "First Note",
-		ContentBody: "My first note",
-		ContentImgURL: "https://png.pngtree.com/element_pic/12/03/20/1656e3fa305853d.jpg", 
-		CreatedDate: time.Now(),
-	},
-	{
-		Id: "2",
-		Title: "Second Note",
-		ContentBody: "My second note",
-		ContentImgURL: "https://png.pngtree.com/element_pic/12/03/20/1656e3fa305853d.jpg", 
-		CreatedDate: time.Now(),
-	},
-	{
-		Id: "3",
-		Title: "Third Note",
-		ContentBody: "My boring note", 
-		CreatedDate: time.Now(),
-	},
+	// {
+	// 	Id: "1",
+	// 	Title: "First Note",
+	// 	ContentBody: "My first note",
+	// 	ContentImgURL: "https://png.pngtree.com/element_pic/12/03/20/1656e3fa305853d.jpg", 
+	// 	CreatedDate: time.Now(),
+	// },
+	// {
+	// 	Id: "3",
+	// 	Title: "Third Note",
+	// 	ContentBody: "My boring note", 
+	// 	CreatedDate: time.Now(),
+	// },
 } 
 
 func generateUniqueId() string {
@@ -138,7 +131,10 @@ func deleteNote(c *gin.Context) {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message" : "Error! Unable to delete note"})
 		return
 	}
-	c.IndentedJSON(http.StatusOK, notes)
+	data := gin.H{
+		"notes": notes,
+	}
+	c.IndentedJSON(http.StatusOK, data)
 }
 
 func ViewNotes(c *gin.Context) {

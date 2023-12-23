@@ -13,17 +13,23 @@
                     <a href = ""> Sync notes with another device </a> -
                     <a href= ""> Import notes </a>
                 </div>
-                <input type="text" class="search-notes-input" placeholder="Search notes...">
-
-                {{range .notes}}
-                    <div class="search-notes-container">
-                        <div class="delete-btn">
-                            <img src="/static/images/delete.svg" class="icon" alt="delete-note-icon">
-                            <div class="tooltip">Remove Note</div>
+                {{if .notes}}
+                    <input type="text" class="search-notes-input" placeholder="Search notes...">
+                    <input type="hidden" id="arrLength" value="{{len .notes}}">
+                    {{range $i, $e := .notes}}
+                        <div id = "note-{{.Id}}" class="search-notes-container">
+                            <div class="delete-btn">
+                                <img data-imgid="{{.Id}}" src="/static/images/delete.svg" class="icon" alt="delete-note-icon" onclick="deleteNote()">
+                                <div class="tooltip">Remove Note</div>
+                            </div>
+                            <div class="note-title">
+                                <a href="/{{.Id}}" class="note-title-link">{{.Title}}</a>
+                            </div>
                         </div>
-                        <div class="note-title">
-                            <a href="/{{.Id}}" class="note-title-link">{{.Title}}</a>
-                        </div>
+                    {{end}}
+                {{else}}
+                    <div>
+                        <p> You haven't created any note yet. <a href="/create-note">Create a note now</a></p>
                     </div>
                 {{end}}
             </div>

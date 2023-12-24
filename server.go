@@ -226,43 +226,6 @@ func CloneNote(c *gin.Context) {
 func CreateNote(c *gin.Context) {
 	//try getting data inputted from user when going from edit note -> create note button click and show in create note page
 	//like how quicknote does
-
-	title := c.PostForm("input-title")
-	content := c.PostForm("content")
-	if title != "" && content != "" {
-		payload, err := json.Marshal(map[string]string{
-			"title" : title,
-			"body": content,
-		})
-		if err != nil {
-			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error" : "Failed to process request"})
-			return
-		}
-
-		apiUrl := "http://localhost:8080/api/notes"
-
-		resp, err := http.Post(apiUrl, "application/json", bytes.NewBuffer(payload))
-		if err != nil {
-			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error" : "Failed to call API"})
-			return
-		}
-
-		defer resp.Body.Close()
-		fmt.Println(resp.StatusCode)
-		fmt.Println(http.StatusCreated)
-		
-		if resp.StatusCode != http.StatusCreated {
-			c.AbortWithStatusJSON(resp.StatusCode, gin.H{"error" : "Failed to create note on the server"})
-			return
-		}
-
-		data := gin.H{
-			"notes" : notes,
-		}
-
-		c.HTML(http.StatusOK, "view-notes.html", data)
-		return
-	}
 	c.HTML(http.StatusOK, "create-note.html", nil)
 }
 
@@ -288,7 +251,6 @@ func main() {
 		viewRoutes.POST("/:id/edit", EditNote)
 		viewRoutes.GET("/:id/clone", CloneNote)
 		viewRoutes.GET("/", CreateNote)
-		viewRoutes.POST("/", CreateNote)
 	}
 
 	apiRoutes := router.Group("/api") 

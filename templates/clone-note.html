@@ -1,9 +1,9 @@
 {{ template "header.html" }}
 
-    <form action="/create-note" method="post" name="createNoteForm">
+    <form name="createNoteForm">
         <div class="container">
             <div class="control-panel">
-                <input class="publish-btn" type="submit" value="Save">
+                <input class="publish-btn" type="button" value="Save" onclick="createNote();">
                 <div class="control-panel-container">
                     <div class="action-btn">
                         <a href="/create-note">

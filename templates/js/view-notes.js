@@ -9,7 +9,7 @@ async function deleteNote() {
         const noteContainer = document.getElementById("note-"+ noteID);
         const inputContainer = document.querySelector(".search-notes-input");
         var arrayLength = document.getElementById("arrLength");
-        await axios.delete(ROOT_API + "notes/" + noteID)
+        await axios.delete(ROOT_API + "api/notes/" + noteID)
         .then(response => {
             if (response.status == 200) {
                 noteContainer.remove();
@@ -34,7 +34,6 @@ async function deleteNote() {
 
 document.addEventListener('DOMContentLoaded', function() {
     function getNotes() {
-        console.log(getNotes());
         return document.getElementsByClassName("note-title");
     }
 

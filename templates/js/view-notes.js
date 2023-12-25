@@ -31,23 +31,20 @@ async function deleteNote() {
 }
 
 //Search note functionality
+function getNotes() {
+    return document.getElementsByClassName("note-title-link");
+}
 
-document.addEventListener('DOMContentLoaded', function() {
-    function getNotes() {
-        return document.getElementsByClassName("note-title");
-    }
-
-    document.querySelector(".search-notes-input").addEventListener("change", function(e) {
-        var searchText = this.value;
-        console.log(getNotes());
-        Array.from(getNotes()).forEach(function(note) {
-            console.log(note);
-            if (searchText.length === 0) {
-                note.style.display = "none";
-            } else {
-                // Do something when there's search text
-            }
-        });
+function searchNote(e) {
+    var searchText = e.value;
+    Array.from(getNotes()).forEach(function(note) {
+        var noteText = note.text;
+        console.log(noteText.search(searchText));
+        if (noteText.search(searchText) < 0) {
+            note.parentElement.parentElement.style.display = "none";
+        } else {
+            note.parentElement.parentElement.style.display = "display";
+        }
     });
-});
+}
 

@@ -14,7 +14,7 @@
                     <a href= ""> Import notes </a>
                 </div>
                 {{if .notes}}
-                    <input type="text" class="search-notes-input" placeholder="Search notes...">
+                    <input type="text" class="search-notes-input" placeholder="Search notes..." onkeyup="searchNote(this);">
                     <input type="hidden" id="arrLength" value="{{len .notes}}">
                     {{range $i, $e := .notes}}
                         <div id = "note-{{.Id}}" class="search-notes-container">

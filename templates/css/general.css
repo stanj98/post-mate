@@ -24,6 +24,7 @@ div, p, input {
     text-transform: uppercase;
     font-size: 17px;
     cursor: pointer;
+    border: none;
 }
 
 .publish-btn:hover, .new-note-btn:hover {

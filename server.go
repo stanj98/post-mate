@@ -6,6 +6,9 @@ import (
 	"github.com/google/uuid"
 	"time"
 	"errors"
+	"encoding/json"
+	"bytes"
+	"fmt"
 )
 
 type Note struct {
@@ -18,26 +21,19 @@ type Note struct {
 }
 
 var notes = []Note {
-	{
-		Id: "1",
-		Title: "First Note",
-		ContentBody: "My first note",
-		ContentImgURL: "https://png.pngtree.com/element_pic/12/03/20/1656e3fa305853d.jpg", 
-		CreatedDate: time.Now(),
-	},
-	{
-		Id: "2",
-		Title: "Second Note",
-		ContentBody: "My second note",
-		ContentImgURL: "https://png.pngtree.com/element_pic/12/03/20/1656e3fa305853d.jpg", 
-		CreatedDate: time.Now(),
-	},
-	{
-		Id: "3",
-		Title: "Third Note",
-		ContentBody: "My boring note", 
-		CreatedDate: time.Now(),
-	},
+	// {
+	// 	Id: "1",
+	// 	Title: "First Note",
+	// 	ContentBody: "My first note",
+	// 	ContentImgURL: "https://png.pngtree.com/element_pic/12/03/20/1656e3fa305853d.jpg", 
+	// 	CreatedDate: time.Now(),
+	// },
+	// {
+	// 	Id: "3",
+	// 	Title: "Third Note",
+	// 	ContentBody: "My boring note", 
+	// 	CreatedDate: time.Now(),
+	// },
 } 
 
 func generateUniqueId() string {
@@ -135,26 +131,136 @@ func deleteNote(c *gin.Context) {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message" : "Error! Unable to delete note"})
 		return
 	}
-	c.IndentedJSON(http.StatusOK, notes)
+	data := gin.H{
+		"notes": notes,
+	}
+	c.IndentedJSON(http.StatusOK, data)
+}
+
+func ViewNotes(c *gin.Context) {
+	data := gin.H{
+		"notes" : notes,
+	}
+	c.HTML(http.StatusOK, "view-notes.html", data)
+}
+
+func ViewNote(c *gin.Context) {
+	id := c.Param("id")
+	note, err := GetNoteById(id)
+	if err != nil {
+		c.HTML(http.StatusOK, "create-note.html", nil)
+		return
+	}
+	
+	data := gin.H{
+		"note": note,
+	}
+	c.HTML(http.StatusOK, "view-note.html", data)
+}
+
+func EditNote(c *gin.Context) {
+	id := c.Param("id")
+	note, err := GetNoteById(id)
+	if err != nil {
+		c.HTML(http.StatusOK, "view-note.html", nil)
+		return
+	}
+	title := c.PostForm("input-title")
+	content := c.PostForm("content")
+	if title != "" && content != "" {
+		payload, err := json.Marshal(map[string]string {
+			"title" : title,
+			"body" : content,
+		})
+		if err != nil {
+			c.AbortWithStatusJSON(
+				http.StatusInternalServerError,
+				gin.H{"error" : "Failed to process request"},
+			)
+			return
+		}
+		client := &http.Client{}
+		apiUrl := fmt.Sprintf("http://localhost:8080/api/notes/%s", id)
+		req, err := http.NewRequest("PUT", apiUrl, bytes.NewBuffer(payload))
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error" : "Failed to call API"})
+			return
+		}
+		req.Header.Set("Content-Type", "application/json")
+		resp, err := client.Do(req)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error" : "Failed to call API"})
+			return
+		}
+		defer resp.Body.Close()
+		if resp.StatusCode != http.StatusOK {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error" : "Failed to edit note on server"})
+			return
+		}
+		data := gin.H{
+			"note": note,
+		}
+		c.HTML(http.StatusOK, "view-note.html", data)
+		return
+	}
+
+	data := gin.H{
+		"note": note,
+	}
+	c.HTML(http.StatusOK, "edit-note.html", data)
+}
+
+func CloneNote(c *gin.Context) {
+	id := c.Param("id")
+	note, err := GetNoteById(id)
+	if err != nil {
+		c.HTML(http.StatusOK, "view-note.html", nil)
+		return
+	}
+	data := gin.H{
+		"note": note,
+	}
+	c.HTML(http.StatusOK, "clone-note.html", data)
+}
+
+func CreateNote(c *gin.Context) {
+	//try getting data inputted from user when going from edit note -> create note button click and show in create note page
+	//like how quicknote does
+	c.HTML(http.StatusOK, "create-note.html", nil)
 }
 
 func main() {
 
 	/*
 		Plan:
-		1. Create note structure - perform CRUD and duplicate notes
-		2. Use mongodb instead of point 1
-		3. Refer to this: https://dev.to/percoguru/getting-started-with-apis-in-golang-feat-fiber-and-gorm-2n34
+		2. Set up templates to communicate with created APIs
+		3. Use mongodb instead of memory data in this file
+		4. Refer to this: https://dev.to/percoguru/getting-started-with-apis-in-golang-feat-fiber-and-gorm-2n34
 
 	*/
 
-	// app.Static("/", "./public") 
-
 	router := gin.Default()
-	router.GET("/notes", getNotes)
-	router.GET("/notes/:id", getNote)
-	router.POST("/notes", createNote)
-	router.PUT("/notes/:id", editNote)
-	router.DELETE("/notes/:id", deleteNote)
+	router.Static("/static", "./templates")
+	router.LoadHTMLGlob("templates/*.html")
+
+	viewRoutes := router.Group("/") 
+	{
+		viewRoutes.GET("/view-notes", ViewNotes)
+		viewRoutes.GET("/:id", ViewNote)
+		viewRoutes.GET("/:id/edit", EditNote)
+		viewRoutes.POST("/:id/edit", EditNote)
+		viewRoutes.GET("/:id/clone", CloneNote)
+		viewRoutes.GET("/", CreateNote)
+	}
+
+	apiRoutes := router.Group("/api") 
+	{
+		apiRoutes.GET("/notes", getNotes)
+		apiRoutes.GET("/notes/:id", getNote)
+		apiRoutes.POST("/notes", createNote)
+		apiRoutes.PUT("/notes/:id", editNote)
+		apiRoutes.DELETE("/notes/:id", deleteNote)
+	}
+	
 	router.Run("localhost:8080")
 }

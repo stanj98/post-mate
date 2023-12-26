@@ -1,13 +1,10 @@
 
 
 //Delete note functionality
-
-async function deleteNote() {
+async function deleteNote(e) {
     try {
-        const deleteAttr = document.querySelector(".icon");
-        const noteID = deleteAttr.dataset.imgid;
-        const noteContainer = document.getElementById("note-"+ noteID);
-        const inputContainer = document.querySelector(".search-notes-input");
+        const noteID = e.dataset.imgid;
+        const noteContainer = e.parentElement.parentElement;
         var arrayLength = document.getElementById("arrLength");
         await axios.delete(ROOT_API + "api/notes/" + noteID)
         .then(response => {

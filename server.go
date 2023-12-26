@@ -6,9 +6,6 @@ import (
 	"github.com/google/uuid"
 	"time"
 	"errors"
-	"encoding/json"
-	"bytes"
-	"fmt"
 )
 
 type Note struct {
@@ -161,49 +158,12 @@ func ViewNote(c *gin.Context) {
 func EditNote(c *gin.Context) {
 	id := c.Param("id")
 	note, err := GetNoteById(id)
+
 	if err != nil {
 		c.HTML(http.StatusOK, "view-note.html", nil)
 		return
 	}
-	title := c.PostForm("input-title")
-	content := c.PostForm("content")
-	if title != "" && content != "" {
-		payload, err := json.Marshal(map[string]string {
-			"title" : title,
-			"body" : content,
-		})
-		if err != nil {
-			c.AbortWithStatusJSON(
-				http.StatusInternalServerError,
-				gin.H{"error" : "Failed to process request"},
-			)
-			return
-		}
-		client := &http.Client{}
-		apiUrl := fmt.Sprintf("http://localhost:8080/api/notes/%s", id)
-		req, err := http.NewRequest("PUT", apiUrl, bytes.NewBuffer(payload))
-		if err != nil {
-			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error" : "Failed to call API"})
-			return
-		}
-		req.Header.Set("Content-Type", "application/json")
-		resp, err := client.Do(req)
-		if err != nil {
-			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error" : "Failed to call API"})
-			return
-		}
-		defer resp.Body.Close()
-		if resp.StatusCode != http.StatusOK {
-			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error" : "Failed to edit note on server"})
-			return
-		}
-		data := gin.H{
-			"note": note,
-		}
-		c.HTML(http.StatusOK, "view-note.html", data)
-		return
-	}
-
+	
 	data := gin.H{
 		"note": note,
 	}
@@ -248,7 +208,6 @@ func main() {
 		viewRoutes.GET("/view-notes", ViewNotes)
 		viewRoutes.GET("/:id", ViewNote)
 		viewRoutes.GET("/:id/edit", EditNote)
-		viewRoutes.POST("/:id/edit", EditNote)
 		viewRoutes.GET("/:id/clone", CloneNote)
 		viewRoutes.GET("/", CreateNote)
 	}

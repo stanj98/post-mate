@@ -1,0 +1,43 @@
+{{ template "header.html" }}
+
+    <form>
+        <div class="container">
+            <div class="control-panel">
+                <div class="publish-btn">Share</div>
+                <div class="control-panel-container">
+                    <div class="action-btn">
+                        <a href="/">
+                            <img class="icon" src="/static/images/add.svg" alt="Create Note">
+                            <div class="tooltip">Create a new note</div>
+                        </a>
+                    </div>
+                    <div class="action-btn">
+                        <a href="/{{.note.Id}}/edit">
+                            <img class="icon" src="/static/images/edit.svg" alt="Edit Note">
+                            <div class="tooltip">Edit this note</div>
+                        </a>
+                    </div>
+                    <div class="action-btn">
+                        <a href="/{{.note.Id}}/clone">
+                            <img class="icon" src="/static/images/copy.svg" alt="Clone Note">
+                            <div class="tooltip">Clone this note</div>
+                        </a>
+                    </div>
+                    <div class="action-btn">
+                        <a href="/view-notes">
+                            <img class="icon" src="/static/images/view.svg" alt="View Notes">
+                            <div class="tooltip">View notes</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="main-section">
+                <h1 id="input-title" class="input-title">{{.note.Title}}</h1>
+                <!-- <trix-editor class="trix-content"></trix-editor> -->
+                <!-- content not rendering with styled formatting - the code just show div tags when displaying -->
+                {{.note.ContentBody}}
+            </div>
+        </div>
+    </form>
+
+{{ template "footer.html" }}

@@ -1,0 +1,30 @@
+{{ template "header.html" }}
+
+    <form method="post" name="createNoteForm">
+        <div class="container">
+            <div class="control-panel">
+                <input class="publish-btn" type="button" value="Publish" onclick="createNote();">
+                <div class="control-panel-container">
+                    <div class="action-btn">
+                        <a href="/">
+                            <img class="icon" src="/static/images/add.svg" alt="Create Note">
+                            <div class="tooltip">Create a new note</div>
+                        </a>
+                    </div>
+                    <div class="action-btn">
+                        <a href="/view-notes">
+                            <img class="icon" src="/static/images/view.svg" alt="View All Notes">
+                            <div class="tooltip">View notes</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="main-section">
+                <input id="input-title" name="input-title" type="text" class="input-title" placeholder="Title">
+                <input id="form-content" type="hidden" name="content">
+                <trix-editor autofocus class="trix-custom-content" input = "form-content"></trix-editor>
+            </div>
+        </div>
+    </form>
+
+{{ template "footer.html" }}

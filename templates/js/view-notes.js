@@ -39,11 +39,10 @@ function searchNote(e) {
     var searchText = e.value;
     Array.from(getNotes()).forEach(function(note) {
         var noteText = note.text;
-        console.log(noteText.search(searchText));
-        if (noteText.search(searchText) < 0) {
+        if (noteText.search(searchText) != 0) {
             note.parentElement.parentElement.style.display = "none";
         } else {
-            note.parentElement.parentElement.style.display = "display";
+            note.parentElement.parentElement.style.display = "";
         }
     });
 }

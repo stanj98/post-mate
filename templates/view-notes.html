@@ -19,7 +19,7 @@
                     {{range $i, $e := .notes}}
                         <div id = "note-{{.Id}}" class="search-notes-container">
                             <div class="delete-btn">
-                                <img data-imgid="{{.Id}}" src="/static/images/delete.svg" class="icon" alt="delete-note-icon" onclick="deleteNote()">
+                                <img data-imgid="{{.Id}}" src="/static/images/delete.svg" class="icon" alt="delete-note-icon" onclick="deleteNote(this)">
                                 <div class="tooltip">Remove Note</div>
                             </div>
                             <div class="note-title">

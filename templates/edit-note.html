@@ -1,9 +1,9 @@
 {{ template "header.html" }}
 
-<form action="/{{.note.Id}}/edit" method="post" name="editNoteForm">
+<form method="post" name="editNoteForm">
         <div class="container">
             <div class="control-panel">
-                <input class="publish-btn" type="submit" value="Save">
+                <input class="publish-btn" type="button" value="Save" onclick="editNote();">
                 <div class="control-panel-container">
                     <div class="action-btn">
                         <a href="/">
@@ -20,6 +20,7 @@
                 </div>
             </div>
             <div class="main-section">
+                <input id="noteID" type="hidden" value="{{.note.Id}}">
                 <input id="input-title" name="input-title" value="{{.note.Title}}" type="text" class="input-title" placeholder="Title">
                 <input id="form-content" value="{{.note.ContentBody}}" type="hidden" name="content">
                 <trix-editor autofocus class="trix-custom-content" input = "form-content"></trix-editor>

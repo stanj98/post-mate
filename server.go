@@ -193,9 +193,9 @@ func main() {
 
 	/*
 		Plan:
-		2. Set up templates to communicate with created APIs
-		3. Use mongodb instead of memory data in this file
-		4. Refer to this: https://dev.to/percoguru/getting-started-with-apis-in-golang-feat-fiber-and-gorm-2n34
+		3. Saving image attachment as s3 bucket, and storing URL link into object retrieved
+		4. Use mongodb instead of memory data in this file
+		5. Refer to this: https://dev.to/percoguru/getting-started-with-apis-in-golang-feat-fiber-and-gorm-2n34
 
 	*/
 

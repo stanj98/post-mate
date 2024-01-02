@@ -5,6 +5,7 @@ async function deleteNote(e) {
     try {
         const noteID = e.dataset.imgid;
         const noteContainer = e.parentElement.parentElement;
+        const inputContainer = document.querySelector(".search-notes-input");
         var arrayLength = document.getElementById("arrLength");
         await axios.delete(ROOT_API + "api/notes/" + noteID)
         .then(response => {

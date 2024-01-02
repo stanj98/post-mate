@@ -20,9 +20,9 @@
                 </div>
             </div>
             <div class="main-section">
-                <input id="input-title" name="input-title" value="{{.note.Title}}" type="text" class="input-title" placeholder="Title">
+                <input id="input-title" name="input-title" value="{{.note.Title}}" type="text" class="input-title" placeholder="Title" onkeyup="checkFields();">
                 <input id="form-content" value="{{.note.ContentBody}}" type="hidden" name="content">
-                <trix-editor autofocus class="trix-custom-content" input = "form-content"></trix-editor>
+                <trix-editor autofocus class="trix-custom-content" input = "form-content" onkeyup="checkFields();"></trix-editor>
             </div>
         </div>
     </form>

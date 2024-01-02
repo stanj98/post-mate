@@ -20,20 +20,20 @@ func main() {
 
 	viewRoutes := router.Group("/") 
 	{
-		viewRoutes.GET("/view-notes", ViewNotes)
-		viewRoutes.GET("/:id", ViewNote)
-		viewRoutes.GET("/:id/edit", EditNote)
-		viewRoutes.GET("/:id/clone", CloneNote)
-		viewRoutes.GET("/", CreateNote)
+		viewRoutes.GET("/view-notes", routes.ViewNotes)
+		viewRoutes.GET("/:id", routes.ViewNote)
+		viewRoutes.GET("/:id/edit", routes.EditNote)
+		viewRoutes.GET("/:id/clone", routes.CloneNote)
+		viewRoutes.GET("/", routes.CreateNote)
 	}
 
 	apiRoutes := router.Group("/api") 
 	{
-		apiRoutes.GET("/notes", getNotes)
-		apiRoutes.GET("/notes/:id", getNote)
-		apiRoutes.POST("/notes", createNote)
-		apiRoutes.PUT("/notes/:id", editNote)
-		apiRoutes.DELETE("/notes/:id", deleteNote)
+		apiRoutes.GET("/notes", routes.GetNotesAPI)
+		apiRoutes.GET("/notes/:id", routes.GetNoteAPI)
+		apiRoutes.POST("/notes", routes.CreateNoteAPI)
+		apiRoutes.PUT("/notes/:id", routes.EditNoteAPI)
+		apiRoutes.DELETE("/notes/:id", routes.DeleteNoteAPI)
 	}
 	
 	router.Run("localhost:8080")

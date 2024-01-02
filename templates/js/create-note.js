@@ -20,14 +20,14 @@ async function createNote() {
         title: title,
         body: "<div> Dummy content </div>",
     }
-    // const headers = {
-    //     'Content-Type': 'application/json'
-    // }
-    // await axios.post(ROOT_API + "api/notes/", data, headers)
-    // .then(response => {
-    //     console.log(response);
-    //     if (response.status == 201) {
-    //         window.location.href = ROOT_API + "view-notes";
-    //     }
-    // });
+    const headers = {
+        'Content-Type': 'application/json'
+    }
+    await axios.post(ROOT_API + "api/notes/", data, headers)
+    .then(response => {
+        console.log(response);
+        if (response.status == 201) {
+            window.location.href = ROOT_API + "view-notes";
+        }
+    });
 }

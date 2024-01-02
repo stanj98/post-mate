@@ -1,14 +1,13 @@
-package api
+package routes
 
 import (
 	"net/http"
-	"errors"
 	"github.com/gin-gonic/gin"
 	"github.com/stanj98/post-mate/types"
 	"github.com/stanj98/post-mate/util"
 )
 
-var notes = []*types.Note
+var notes = []*types.Note {}
 
 // var notes = []*types.Note {
 // 	{
@@ -26,17 +25,13 @@ var notes = []*types.Note
 // 	},
 // } 
 
-func GetNotes() ([]*types.Note) {
-	return notes
-}
-
-func getNotes(c *gin.Context) {
+func GetNotesAPI(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, gin.H{"data" : notes})
 } 
 
-func getNote(c *gin.Context) {
+func GetNoteAPI(c *gin.Context) {
 	id := c.Param("id")
-	note, err := *util.GetNoteById(notes, id)
+	note, err := util.GetNoteById(notes, id)
 	
 	if err != nil {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"message" : "Unable to find note!"})
@@ -46,25 +41,25 @@ func getNote(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, gin.H{"data" : note})
 }
 
-func createNote(c *gin.Context) {
+func CreateNoteAPI(c *gin.Context) {
 	var newNote *types.Note
 	if err := c.BindJSON(&newNote); err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message" : err})
 		return
 	}
-	*util.SetData(&newNote)
+	util.SetData(newNote)
 	notes = append(notes, newNote)
 	c.IndentedJSON(http.StatusCreated, gin.H{"data" : newNote})
 }
 
-func editNote(c *gin.Context) {
+func EditNoteAPI(c *gin.Context) {
 	var oldNote *types.Note
 	id := c.Param("id")
 	if err := c.BindJSON(&oldNote); err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message" : "Error parsing JSON data"})
 		return
 	}
-	note, err := *util.EditNoteById(notes, id, &oldNote)
+	note, err := util.EditNoteById(notes, id, oldNote)
 
 	if err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message" : "Error! Unable to edit note"})
@@ -73,14 +68,14 @@ func editNote(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, note)
 }
 
-func deleteNote(c *gin.Context) {
+func DeleteNoteAPI(c *gin.Context) {
 	id := c.Param("id")
-	note, err := *util.GetNoteById(notes, id)
+	note, err := util.GetNoteById(notes, id)
 	if err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Error! Unable to find note"})
 		return
 	}
-	notes, err := *util.DeleteNote(notes, note)
+	notes, err := util.DeleteNote(notes, note)
 	if err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message" : "Error! Unable to delete note"})
 		return

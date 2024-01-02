@@ -1,4 +1,4 @@
-package api
+package routes
 
 import (
 	"net/http"
@@ -14,8 +14,7 @@ func CreateNote(c *gin.Context) {
 
 func CloneNote(c *gin.Context) {
 	id := c.Param("id")
-	notes := GetNotes()
-	note, err := *util.GetNoteById(notes, id)
+	note, err := util.GetNoteById(notes, id)
 	if err != nil {
 		c.HTML(http.StatusOK, "view-note.html", nil)
 		return
@@ -29,8 +28,7 @@ func CloneNote(c *gin.Context) {
 
 func EditNote(c *gin.Context) {
 	id := c.Param("id")
-	notes := GetNotes()
-	note, err := *util.GetNoteById(notes, id)
+	note, err := util.GetNoteById(notes, id)
 
 	if err != nil {
 		c.HTML(http.StatusOK, "view-note.html", nil)
@@ -45,8 +43,7 @@ func EditNote(c *gin.Context) {
 
 func ViewNote(c *gin.Context) {
 	id := c.Param("id")
-	notes := GetNotes()
-	note, err := *util.GetNoteById(notes, id)
+	note, err := util.GetNoteById(notes, id)
 	if err != nil {
 		c.HTML(http.StatusOK, "create-note.html", nil)
 		return

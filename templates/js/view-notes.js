@@ -1,12 +1,10 @@
 
 
 //Delete note functionality
-
-async function deleteNote() {
+async function deleteNote(e) {
     try {
-        const deleteAttr = document.querySelector(".icon");
-        const noteID = deleteAttr.dataset.imgid;
-        const noteContainer = document.getElementById("note-"+ noteID);
+        const noteID = e.dataset.imgid;
+        const noteContainer = e.parentElement.parentElement;
         const inputContainer = document.querySelector(".search-notes-input");
         var arrayLength = document.getElementById("arrLength");
         await axios.delete(ROOT_API + "api/notes/" + noteID)
@@ -39,11 +37,10 @@ function searchNote(e) {
     var searchText = e.value;
     Array.from(getNotes()).forEach(function(note) {
         var noteText = note.text;
-        console.log(noteText.search(searchText));
-        if (noteText.search(searchText) < 0) {
+        if (noteText.search(searchText) != 0) {
             note.parentElement.parentElement.style.display = "none";
         } else {
-            note.parentElement.parentElement.style.display = "display";
+            note.parentElement.parentElement.style.display = "";
         }
     });
 }

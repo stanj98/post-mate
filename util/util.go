@@ -2,7 +2,7 @@ package util
 
 import (
 	"github.com/google/uuid"
-	"github.com/stanj98/post-mate/types"
+	"github.com/stanj98/post-mate/models"
 	"errors"
 	"time"
 )
@@ -11,7 +11,7 @@ func generateUniqueId() string {
 	return uuid.New().String()
 }
 
-func GetNoteById(notes []*types.Note, id string) (*types.Note, error) {
+func GetNoteById(notes []*models.Note, id string) (*models.Note, error) {
 	for i, note := range notes {
 		if note.Id == id {
 			return notes[i], nil
@@ -20,7 +20,7 @@ func GetNoteById(notes []*types.Note, id string) (*types.Note, error) {
 	return nil, errors.New("Unable to find note!")
 }
 
-func EditNoteById(notes []*types.Note, id string, updatedNote *types.Note) (*types.Note, error) {
+func EditNoteById(notes []*models.Note, id string, updatedNote *models.Note) (*models.Note, error) {
 	note, err := GetNoteById(notes, id)
 	if err != nil {
 		return nil, err
@@ -32,12 +32,12 @@ func EditNoteById(notes []*types.Note, id string, updatedNote *types.Note) (*typ
 	return note, nil
 }
 
-func SetData(note *types.Note) {
+func SetData(note *models.Note) {
 	note.Id = generateUniqueId()
 	note.CreatedDate = time.Now()
 }
 
-func DeleteNote(notes []*types.Note, note *types.Note) ([]*types.Note, error) {
+func DeleteNote(notes []*models.Note, note *models.Note) ([]*models.Note, error) {
 	for i, n := range notes {
 		if n.Id == note.Id {
 			notes = append(notes[:i], notes[i+1:]...)
